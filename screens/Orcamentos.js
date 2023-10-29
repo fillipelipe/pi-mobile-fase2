@@ -1,22 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, ScrollView } from 'react-native';
-import { FAB, Card, Title } from 'react-native-paper'; // Importe o Card e Title do React Native Paper
+import { FAB, Card, Title } from 'react-native-paper';
 import MenuOrcamentos from '../components/MenuOrcamentos';
+import { useClientes } from '../context/ClientesContext';
+import { useOrcamentos } from '../context/OrcamentosContext';
 
 const Orcamentos = ({ navigation }) => {
-  const [orcamentos, setOrcamentos] = useState([]); // Define um estado para armazenar os orçamentos
-
-  // Simule a obtenção dos orçamentos, por exemplo, de uma API ou banco de dados
-  useEffect(() => {
-    // Aqui você pode buscar os dados dos orçamentos e definir o estado
-    const dadosDosOrcamentos = [
-      { id: '1', descricao: 'Orçamento 1' },
-      { id: '2', descricao: 'Orçamento 2' },
-      { id: '3', descricao: 'Orçamento 3' },
-      // Adicione mais orçamentos aqui
-    ];
-    setOrcamentos(dadosDosOrcamentos);
-  }, []);
+  const { clientes } = useClientes();
+  const { orcamentos } = useOrcamentos();
 
   return (
     <View style={styles.container}>
@@ -24,9 +15,10 @@ const Orcamentos = ({ navigation }) => {
       <ScrollView style={styles.orcamentosContainer}>
         <Text style={styles.title}>Lista de Orçamentos</Text>
         {orcamentos.map((orcamento) => (
-          <Card style={styles.orcamentoCard} key={orcamento.id}>
+          <Card style={styles.orcamentoCard} key={orcamento.numero}>
             <Card.Content>
-              <Title>{orcamento.descricao}</Title>
+              <Title>Número do Orçamento: {orcamento.numero}</Title>
+              <Title>Cliente: {orcamento.cliente}</Title>
             </Card.Content>
           </Card>
         ))}
@@ -46,7 +38,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#D9D9D9',
   },
   orcamentosContainer: {
-    backgroundColor: 'white', // Cor de fundo do container da lista de orçamentos
+    backgroundColor: 'white',
     padding: 16,
     borderRadius: 8,
     marginTop: 10,
