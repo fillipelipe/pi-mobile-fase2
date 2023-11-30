@@ -3,7 +3,7 @@ import { View, StyleSheet, Text } from "react-native";
 import { Appbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 
-const MenuOrcamentos = () => {
+const MenuOrdemServico = () => {
   const navigation = useNavigation();
   return (
     <View>
@@ -12,7 +12,7 @@ const MenuOrcamentos = () => {
           icon="menu"
           onPress={() => navigation.toggleDrawer("Navegacao")}
         />
-        <Appbar.Content title="Orçamentos" />
+        <Appbar.Content title="Ordens de serviços" />
       </Appbar.Header>
     </View>
   );
@@ -23,4 +23,4 @@ const estilos = StyleSheet.create({
     backgroundColor: "white",
   },
 });
-export default MenuOrcamentos;
+export default MenuOrdemServico;

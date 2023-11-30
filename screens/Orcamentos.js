@@ -1,32 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet, ScrollView } from 'react-native';
-import { FAB, Card, Title } from 'react-native-paper';
-import MenuOrcamentos from '../components/MenuOrcamentos';
-import { useClientes } from '../context/ClientesContext';
-import { useOrcamentos } from '../context/OrcamentosContext';
+import React from "react";
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  TouchableWithoutFeedback,
+} from "react-native";
+import { Card, Title, FAB } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
+import { useClientes } from "../context/ClientesContext";
+import { useOrcamentos } from "../context/OrcamentosContext";
+import MenuOrcamentos from "../components/MenuOrcamentos";
 
-const Orcamentos = ({ navigation }) => {
+const Orcamentos = () => {
+  const navigation = useNavigation();
   const { clientes } = useClientes();
   const { orcamentos } = useOrcamentos();
+
+  const navigateToDetalhes = (orcamento) => {
+    navigation.navigate("DetalhesOrcamento", { orcamento });
+  };
 
   return (
     <View style={styles.container}>
       <MenuOrcamentos />
       <ScrollView style={styles.orcamentosContainer}>
-        <Text style={styles.title}>Lista de Orçamentos</Text>
         {orcamentos.map((orcamento) => (
-          <Card style={styles.orcamentoCard} key={orcamento.numero}>
-            <Card.Content>
-              <Title>Número do Orçamento: {orcamento.numero}</Title>
-              <Title>Cliente: {orcamento.cliente}</Title>
-            </Card.Content>
-          </Card>
+          <TouchableWithoutFeedback
+            key={orcamento.numero}
+            onPress={() => navigateToDetalhes(orcamento)}
+          >
+            <View>
+              <Card style={styles.orcamentoCard}>
+                <Card.Content>
+                  <Title>Número do Orçamento: {orcamento.numero}</Title>
+                  <Title>Cliente: {orcamento.cliente}</Title>
+                </Card.Content>
+              </Card>
+            </View>
+          </TouchableWithoutFeedback>
         ))}
       </ScrollView>
       <FAB
         style={styles.fab}
         icon="plus"
-        onPress={() => navigation.navigate('NovoOrcamento')}
+        onPress={() => navigation.navigate("NovoOrcamento")}
       />
     </View>
   );
@@ -35,10 +53,10 @@ const Orcamentos = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#D9D9D9',
+    backgroundColor: "#D9D9D9",
   },
   orcamentosContainer: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 16,
     borderRadius: 8,
     marginTop: 10,
@@ -51,10 +69,11 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   fab: {
-    position: 'absolute',
+    position: "absolute",
     margin: 16,
     right: 0,
     bottom: 0,
+    backgroundColor: "black",
   },
 });
 

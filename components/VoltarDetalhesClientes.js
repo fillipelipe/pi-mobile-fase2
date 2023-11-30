@@ -3,13 +3,13 @@ import { Appbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, StyleSheet } from "react-native";
 
-const VoltarClientes = () => {
+const VoltarDetalhesClientes = () => {
   const navigation = useNavigation();
 
   return (
     <Appbar.Header style={estilos.color}>
       <Appbar.BackAction onPress={() => navigation.navigate("Clientes")} />
-      <Appbar.Content title="Novo Cliente" />
+      <Appbar.Content title="Dados do cliente" />
     </Appbar.Header>
   );
 };
@@ -19,4 +19,4 @@ const estilos = StyleSheet.create({
     backgroundColor: "white",
   },
 });
-export default VoltarClientes;
+export default VoltarDetalhesClientes;

@@ -1,8 +1,14 @@
-import React from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import { FAB, Card, Title, Avatar } from 'react-native-paper';
-import MenuClientes from '../components/MenuClientes.js';
-import { useClientes } from '../context/ClientesContext.js';
+import React from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableWithoutFeedback,
+} from "react-native";
+import { FAB, Card, Title, Avatar } from "react-native-paper";
+import MenuClientes from "../components/MenuClientes.js";
+import { useClientes } from "../context/ClientesContext.js";
 
 const Clientes = ({ navigation }) => {
   const { clientes } = useClientes();
@@ -11,17 +17,22 @@ const Clientes = ({ navigation }) => {
     <View style={styles.container}>
       <MenuClientes />
       <View style={styles.clientesContainer}>
-        <Text style={styles.title}>Lista de Clientes</Text>
         <FlatList
           data={clientes}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <TouchableWithoutFeedback
-              onPress={() => navigation.navigate('DetalhesCliente', { cliente: item })}
+              onPress={() =>
+                navigation.navigate("DetalhesCliente", { cliente: item })
+              }
             >
               <Card style={styles.clienteCard}>
                 <Card.Content style={styles.cardContent}>
-                  <Avatar.Text size={48} label={item.nome[0]} style={styles.avatar} />
+                  <Avatar.Text
+                    size={48}
+                    label={item.nome[0]}
+                    style={styles.avatar}
+                  />
                   <Title style={styles.clienteNome}>{item.nome}</Title>
                 </Card.Content>
               </Card>
@@ -33,7 +44,7 @@ const Clientes = ({ navigation }) => {
         style={styles.fab}
         icon="plus"
         color="white"
-        onPress={() => navigation.navigate('NovoCliente')}
+        onPress={() => navigation.navigate("NovoCliente")}
       />
     </View>
   );
@@ -42,11 +53,11 @@ const Clientes = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#D9D9D9',
+    backgroundColor: "#D9D9D9",
   },
   clientesContainer: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 16,
     borderRadius: 8,
     marginTop: 10,
@@ -59,19 +70,19 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   cardContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   avatar: {
     marginRight: 16,
-    backgroundColor: 'black',
+    backgroundColor: "black",
   },
   clienteNome: {
     fontSize: 20,
   },
   fab: {
-    position: 'absolute',
-    backgroundColor: 'black',
+    position: "absolute",
+    backgroundColor: "black",
     margin: 16,
     right: 0,
     bottom: 0,

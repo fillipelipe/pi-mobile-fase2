@@ -1,19 +1,19 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import Navegacao from './navigation/Navegacao';
-import { ClientesProvider } from './context/ClientesContext'; // Importe o ClientesProvider
-import { OrcamentosProvider } from './context/OrcamentosContext';
+import React from "react";
+import Navegacao from "./navigation/Navegacao";
+import { AuthProvider } from "./context/AuthContext";
+import { ClientesProvider } from "./context/ClientesContext";
+import { OrcamentosProvider } from "./context/OrcamentosContext";
 
 const App = () => {
   return (
-    <ClientesProvider>
-      <OrcamentosProvider>
-      <NavigationContainer>
-        <Navegacao />
-      </NavigationContainer>
-      </OrcamentosProvider>
-    </ClientesProvider>
+    <AuthProvider>
+      <ClientesProvider>
+        <OrcamentosProvider>
+          <Navegacao />
+        </OrcamentosProvider>
+      </ClientesProvider>
+    </AuthProvider>
   );
-}
+};
 
 export default App;

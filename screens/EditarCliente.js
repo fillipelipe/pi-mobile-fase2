@@ -1,47 +1,41 @@
 import React, { useState } from "react";
-import { View, TextInput, Button, StyleSheet, ScrollView } from "react-native";
-import VoltarClientes from "../components/VoltarClientes";
-import { useClientes } from "../context/ClientesContext";
+import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import VoltarEditarClientes from "../components/VoltarEditarClientes.js";
 
-const NovoCliente = ({ navigation }) => {
-  const { adicionarNovoCliente } = useClientes();
+import { useClientes } from "../context/ClientesContext.js";
 
-  const [nomeCliente, setNomeCliente] = useState("");
-  const [cpf, setCPF] = useState("");
-  const [rg, setRG] = useState("");
-  const [telefone, setTelefone] = useState("");
-  const [cep, setCEP] = useState("");
-  const [endereco, setEndereco] = useState("");
-  const [numeroCasa, setNumeroCasa] = useState("");
+const EditarCliente = ({ route, navigation }) => {
+  const { cliente } = route.params;
+  const { atualizarCliente } = useClientes();
 
-  const adicionarCliente = () => {
-    if (nomeCliente) {
-      const novoCliente = {
-        id: Math.random().toString(),
-        nome: nomeCliente,
-        cpf,
-        rg,
-        telefone,
-        cep,
-        endereco,
-        numeroCasa,
-      };
-      adicionarNovoCliente(novoCliente);
-      setNomeCliente("");
-      setCPF("");
-      setRG("");
-      setTelefone("");
-      setCEP("");
-      setEndereco("");
-      setNumeroCasa("");
-      navigation.navigate("Clientes");
-    }
+  const [nomeCliente, setNomeCliente] = useState(cliente.nome);
+  const [cpf, setCPF] = useState(cliente.cpf);
+  const [rg, setRG] = useState(cliente.rg);
+  const [telefone, setTelefone] = useState(cliente.telefone);
+  const [cep, setCEP] = useState(cliente.cep);
+  const [endereco, setEndereco] = useState(cliente.endereco);
+  const [numeroCasa, setNumeroCasa] = useState(cliente.numeroCasa);
+
+  const salvarEdicoes = () => {
+    const clienteEditado = {
+      ...cliente,
+      nome: nomeCliente,
+      cpf,
+      rg,
+      telefone,
+      cep,
+      endereco,
+      numeroCasa,
+    };
+    atualizarCliente(clienteEditado);
+    navigation.navigate("DetalhesCliente", { cliente: clienteEditado });
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <VoltarClientes />
-      <View style={styles.containerOrc}>
+    <View style={styles.container}>
+      <VoltarEditarClientes />
+      <View style={styles.editarContainer}>
+        <Text style={styles.title}>Editar Cliente</Text>
         <TextInput
           placeholder="Nome do Cliente"
           value={nomeCliente}
@@ -84,9 +78,9 @@ const NovoCliente = ({ navigation }) => {
           onChangeText={(text) => setNumeroCasa(text)}
           style={styles.input}
         />
-        <Button title="Adicionar Cliente" onPress={adicionarCliente} />
+        <Button title="Salvar" onPress={salvarEdicoes} />
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -94,11 +88,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  containerOrc: {
+  editarContainer: {
+    flex: 1,
     backgroundColor: "white",
     padding: 16,
     borderRadius: 8,
     marginTop: 10,
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
   },
   input: {
     height: 40,
@@ -110,4 +109,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NovoCliente;
+export default EditarCliente;

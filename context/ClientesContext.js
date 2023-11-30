@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useMemo } from 'react';
+import React, { createContext, useContext, useState, useMemo } from "react";
 
 const ClientesContext = createContext();
 
@@ -13,10 +13,32 @@ export function ClientesProvider({ children }) {
     setClientes([...clientes, novoCliente]);
   };
 
-  const contextValue = useMemo(() => ({
-    clientes,
-    adicionarNovoCliente,
-  }), [clientes]);
+  const atualizarCliente = (clienteAtualizado) => {
+    const novosClientes = clientes.map((cliente) => {
+      if (cliente.id === clienteAtualizado.id) {
+        return clienteAtualizado;
+      }
+      return cliente;
+    });
+    setClientes(novosClientes);
+  };
+
+  const removerCliente = (clienteId) => {
+    const novosClientes = clientes.filter(
+      (cliente) => cliente.id !== clienteId
+    );
+    setClientes(novosClientes);
+  };
+
+  const contextValue = useMemo(
+    () => ({
+      clientes,
+      adicionarNovoCliente,
+      atualizarCliente,
+      removerCliente,
+    }),
+    [clientes]
+  );
 
   return (
     <ClientesContext.Provider value={contextValue}>
