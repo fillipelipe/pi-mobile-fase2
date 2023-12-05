@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, TextInput, Button, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  TextInput,
+  Button,
+  StyleSheet,
+  ScrollView,
+  Text,
+} from "react-native";
 import VoltarClientes from "../components/VoltarClientes";
 import { useClientes } from "../context/ClientesContext";
 
@@ -13,9 +20,11 @@ const NovoCliente = ({ navigation }) => {
   const [cep, setCEP] = useState("");
   const [endereco, setEndereco] = useState("");
   const [numeroCasa, setNumeroCasa] = useState("");
+  const [nomeError, setNomeError] = useState(false);
+  const [telefoneError, setTelefoneError] = useState(false);
 
   const adicionarCliente = () => {
-    if (nomeCliente) {
+    if (nomeCliente.trim() !== "" && telefone.trim() !== "") {
       const novoCliente = {
         id: Math.random().toString(),
         nome: nomeCliente,
@@ -34,7 +43,20 @@ const NovoCliente = ({ navigation }) => {
       setCEP("");
       setEndereco("");
       setNumeroCasa("");
+      setNomeError(false);
+      setTelefoneError(false);
       navigation.navigate("Clientes");
+    } else {
+      if (nomeCliente.trim() === "") {
+        setNomeError(true);
+      } else {
+        setNomeError(false);
+      }
+      if (telefone.trim() === "") {
+        setTelefoneError(true);
+      } else {
+        setTelefoneError(false);
+      }
     }
   };
 
@@ -46,8 +68,11 @@ const NovoCliente = ({ navigation }) => {
           placeholder="Nome do Cliente"
           value={nomeCliente}
           onChangeText={(text) => setNomeCliente(text)}
-          style={styles.input}
+          style={[styles.input, nomeError ? styles.errorInput : null]}
         />
+        {nomeError && (
+          <Text style={styles.errorMessage}>Nome é obrigatório</Text>
+        )}
         <TextInput
           placeholder="CPF"
           value={cpf}
@@ -64,8 +89,11 @@ const NovoCliente = ({ navigation }) => {
           placeholder="Telefone"
           value={telefone}
           onChangeText={(text) => setTelefone(text)}
-          style={styles.input}
+          style={[styles.input, telefoneError ? styles.errorInput : null]}
         />
+        {telefoneError && (
+          <Text style={styles.errorMessage}>Telefone é obrigatório</Text>
+        )}
         <TextInput
           placeholder="CEP"
           value={cep}
@@ -107,6 +135,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingLeft: 10,
     marginBottom: 20,
+  },
+  errorInput: {
+    borderColor: "red",
+  },
+  errorMessage: {
+    color: "red",
+    marginBottom: 10,
   },
 });
 
