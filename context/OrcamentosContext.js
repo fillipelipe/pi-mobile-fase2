@@ -6,7 +6,7 @@ import React, {
   useMemo,
 } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import axios from "../services/firebaseConfig"
 const OrcamentosContext = createContext();
 
 const initialState = {
@@ -93,6 +93,9 @@ export function OrcamentosProvider({ children }) {
         "orcamentos",
         JSON.stringify(state.orcamentos)
       );
+
+      // Enviar dados para o Firebase
+      await axios.put("/orcamentos.json", state.orcamentos);
     } catch (error) {
       console.error("Erro ao atualizar AsyncStorage:", error);
     }

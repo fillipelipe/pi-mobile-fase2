@@ -27,6 +27,7 @@ const EditarCliente = ({ route, navigation }) => {
       endereco,
       numeroCasa,
     };
+    console.log(clienteEditado)
     atualizarCliente(clienteEditado);
     navigation.navigate("DetalhesCliente", { cliente: clienteEditado });
   };

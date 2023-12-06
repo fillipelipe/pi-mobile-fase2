@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -11,7 +11,10 @@ import MenuClientes from "../components/MenuClientes.js";
 import { useClientes } from "../context/ClientesContext.js";
 
 const Clientes = ({ navigation }) => {
-  const { clientes } = useClientes();
+  const { clientes, carregarClientes } = useClientes();
+  useEffect(() => {
+    carregarClientes()
+  },{})
 
   return (
     <View style={styles.container}>
@@ -19,7 +22,7 @@ const Clientes = ({ navigation }) => {
       <View style={styles.clientesContainer}>
         <FlatList
           data={clientes}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.key}
           renderItem={({ item }) => (
             <TouchableWithoutFeedback
               onPress={() =>
